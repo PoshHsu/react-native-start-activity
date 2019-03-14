@@ -47,7 +47,13 @@
 ```javascript
 import RNStartActivity from 'react-native-start-activity';
 
-// TODO: What to do with the module?
-RNStartActivity;
+RNStartActivity.startActivity({
+  className: 'com.backgroundstartactivityexample.MainActivity',
+  packageName: 'com.backgroundstartactivityexample',
+});
 ```
+
+## Example App
+
+[BackgroundStartActivityExample](https://github.com/PoshHsu/BackgroundStartActivityExample)
   
