@@ -49,8 +49,12 @@ public class RNStartActivityModule extends ReactContextBaseJavaModule {
         return;
       }
 
+      String callId = "";
       String callerDisplayName = "";
       boolean videoDisabled = true;
+      if (params.hasKey("callId")) {
+        callId = params.getString("callId");
+      }
       if (params.hasKey("callerDisplayName")) {
         callerDisplayName = params.getString("callerDisplayName");
       }
@@ -59,10 +63,28 @@ public class RNStartActivityModule extends ReactContextBaseJavaModule {
       }
 
       intent.putExtra("is_incoming_call", true);
+      intent.putExtra("callId", callId);
       intent.putExtra("caller_display_name", callerDisplayName);
       intent.putExtra("video_disabled", videoDisabled);
 
       this.reactContext.startActivity(intent);
+    }
+  }
+
+  private static IncomingCallInteractionReadyListener mListener;
+
+  public interface IncomingCallInteractionReadyListener {
+    void onIncomingCallInteractionReady();
+  }
+
+  public static void setIncomingCallInteractionReadyListener(IncomingCallInteractionReadyListener listener) {
+    mListener = listener;
+  }
+
+  @ReactMethod
+  public void incomingCallInteractionReady() {
+    if (mListener != null) {
+      mListener.onIncomingCallInteractionReady();
     }
   }
 }
